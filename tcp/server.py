@@ -34,7 +34,6 @@ server.bind(( host, port ))
 server.listen()
 print("aguardando conexão...")
 
-
 """
 
     connection: a conexão com o cliente
@@ -43,6 +42,7 @@ print("aguardando conexão...")
 """
 connection, address = server.accept()
 print("\nconectado com sucesso!")
+
 
 """
     Toda essa parte acima é padrão... 
