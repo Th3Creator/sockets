@@ -5,7 +5,7 @@ client = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
 """
 
     host: ip onde o servidor está... no caso é tudo na minha máquina local
-    port: tem que ser a mesma porta
+    port: tem que ser a mesma porta que o servidor tá lá
     bufferSize: buffer para a recepção de dados
 
 """
@@ -19,7 +19,7 @@ bufferSize = 100000000
 
 """
 client.connect(( host, port ))
-print("conectando!")
+print("conectado!")
 
 
 """
