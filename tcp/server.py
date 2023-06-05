@@ -86,3 +86,9 @@ with open( nameFile, 'rb' ) as file: # ,
         connection.send( data )
 
     print("arquivo enviado!")
+
+# lê o arquivo
+# codificar o arquivo, ou seja, transformar em bytes para poder enviar
+# enviar o arquivo
+# verificar se chegou no final do arquivo
+# obs: cronometrar todo esse processo para poder notificar ao cliente 
