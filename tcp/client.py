@@ -72,3 +72,7 @@ with open( nameFile, 'wb') as file:
         # saber quando o servidor vai parar de enviar os dados
 
 print("tudo recebido...")
+
+# recebe o arquivo
+# ler o arquivo e exibir a quantidade de linhas
+# exibir também o tempo gasto no envio
