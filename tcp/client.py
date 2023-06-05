@@ -1,17 +1,15 @@
-import socket
+import socket # https://pythontic.com/modules/socket/introduction
 
-socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
+client = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
 
 host = 'localhost' # ip onde o servidor está... no caso é tudo na minha máquina local
 port = 7777 # tem que ser a mesma porta
 bufferSize = 1024 # buffer para a recepção de dados
 
-socket.connect(( host, port ))
+client.connect(( host, port ))
 # vai fazer a conexão com o ip da máquina passada e qual porta vai se comunicar
 
 print("Conectando...")
-
-
 
 """
     Toda essa parte acima é padrão... 
@@ -25,4 +23,4 @@ print("Conectando...")
         - notificar ao servidor se quer mais um arquivo ou pode fechar conexão
 """
 
-# https://pythontic.com/modules/socket/introduction
+# tratamento de exceção 
