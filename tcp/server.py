@@ -43,13 +43,24 @@ print("aguardando conexão...")
 connection, address = server.accept()
 print("\nconectado com sucesso!")
 
+"""
+
+    nameFile: o nome do arquivo que o cliente pediu para o servidor
+    bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
+    decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
+    é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
+    poder visualizar o que foi enviado, basicamente transforma bytes em string
+
+"""
+nameFile = connection.recv( bufferSize ).decode()  
 
 """
     Toda essa parte acima é padrão... 
 
     O que vem após a conexão é o que o professor quer, que seria:
         
-        - lê o arquivo que o cliente pediu
+        - verificar se existe o arquivo que o cliente pediu na pasta "files"
+        - abrir e ler esse arquivo
         - a transmissão deverá ser feita linha a linha*
         - codificar o arquivo, ou seja, transformar em bytes para poder enviar
         - verificar se chegou no final do arquivo
@@ -66,16 +77,6 @@ print("\nconectado com sucesso!")
 # tratamento de exceção aqui...
 # tentando dar uma adiantada:
 
-"""
-
-    nameFile: o nome do arquivo que o cliente pediu para o servidor
-    bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
-    decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-    é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-    poder visualizar o que foi enviado, basicamente transforma bytes em string
-
-"""
-nameFile = connection.recv( bufferSize ).decode() #  
 
 """
 
