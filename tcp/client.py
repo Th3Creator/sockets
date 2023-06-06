@@ -54,18 +54,22 @@ try:
     """
     client.send( nameFile.encode() ) # 
 
-    folder_path = "files_reiceved/"
+    folderPath = "files_reiceved/"
 
     # Cria o arquivo para salvar os dados recebidos
-    with open( folder_path + nameFile, 'w' ) as file:
+    with open( folderPath + nameFile, 'w' ) as file:
+        
         start_time = time.time()
 
         # Recebe os dados do servidor e escreve no arquivo
         while True:
+
             data = client.recv( bufferSize ).decode()
+
             if not data:
                 break
-            file.write(data)
+
+            file.write( data )
 
         end_time = time.time()
         elapsed_time = end_time - start_time
@@ -74,7 +78,7 @@ try:
         print("Tempo gasto:", elapsed_time, "segundos")
 
         # Contar a quantidade de linhas do arquivo
-        with open( folder_path + nameFile, 'r' ) as file:
+        with open( folderPath + nameFile, 'r' ) as file:
             lines = file.readlines()
             line_count = len(lines)
             print("Quantidade de linhas:", line_count)

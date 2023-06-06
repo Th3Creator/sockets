@@ -77,6 +77,7 @@ try:
     folderPath = "../files/"
 
     with open( folderPath + nameFile, 'r' ) as file:
+        
         startTime = time.time()
 
         for line in file:
