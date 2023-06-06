@@ -35,11 +35,6 @@ print("conectado!")
 """
 
 
-
-
-
-
-# tratamento de exceção aqui...
 # tentando dar uma adiantada:
 
 """

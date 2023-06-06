@@ -70,11 +70,6 @@ nameFile = connection.recv( bufferSize ).decode()
 """
 
 
-
-
-
-
-# tratamento de exceção aqui...
 # tentando dar uma adiantada:
 
 
