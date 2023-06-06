@@ -36,7 +36,7 @@ print("conectado!")
 """
 
 
-# tentando dar uma adiantada:
+# tentando dar uma adiantada: 
 try:
 
     """
