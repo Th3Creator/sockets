@@ -58,7 +58,7 @@ try:
 
     # Cria o arquivo para salvar os dados recebidos
     with open( folderPath + nameFile, 'w' ) as file:
-        
+
         start_time = time.time()
 
         # Recebe os dados do servidor e escreve no arquivo
@@ -79,8 +79,10 @@ try:
 
         # Contar a quantidade de linhas do arquivo
         with open( folderPath + nameFile, 'r' ) as file:
+
             lines = file.readlines()
             line_count = len(lines)
+            
             print("Quantidade de linhas:", line_count)
 
 except Exception as e:
