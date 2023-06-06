@@ -1,4 +1,5 @@
 import socket # https://pythontic.com/modules/socket/introduction
+import time # https://pythontic.com/modules/datetime/introduction
 
 client = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
 
@@ -36,33 +37,49 @@ print("conectado!")
 
 
 # tentando dar uma adiantada:
+try:
 
-"""
+    """
 
     nameFile: ler o arquivo que deseja que o servidor te mande
 
-"""
-nameFile = str(input('qual arquivo deseja pedir?')) # 
+    """
+    nameFile = str(input('qual arquivo deseja pedir?')) 
 
-"""
+    """
 
-    transforma o str em bytes para poder ser transmitido
-    encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
+        transforma o str em bytes para poder ser transmitido
+        encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
 
-"""
-client.send( nameFile.encode() ) # 
+    """
+    client.send( nameFile.encode() ) # 
 
+    folder_path = "files_reiceved/"
 
-# preparar para receber os dados do servidor após requesição
-with open( nameFile, 'wb') as file:
-    while 1:
-        data = client.recv( bufferSize )
+    # Cria o arquivo para salvar os dados recebidos
+    with open( folder_path + nameFile, 'w' ) as file:
+        start_time = time.time()
 
-        if not data:
-            break
+        # Recebe os dados do servidor e escreve no arquivo
+        while True:
+            data = client.recv( bufferSize ).decode()
+            if not data:
+                break
+            file.write(data)
 
-        file.write( data )
+        end_time = time.time()
+        elapsed_time = end_time - start_time
 
-        # saber quando o servidor vai parar de enviar os dados
+        print("Arquivo recebido com sucesso.")
+        print("Tempo gasto:", elapsed_time, "segundos")
 
-print("tudo recebido...")
+        # Contar a quantidade de linhas do arquivo
+        with open( folder_path + nameFile, 'r' ) as file:
+            lines = file.readlines()
+            line_count = len(lines)
+            print("Quantidade de linhas:", line_count)
+
+except Exception as e:
+    print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
+
+client.close()

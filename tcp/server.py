@@ -1,4 +1,5 @@
 import socket # https://pythontic.com/modules/socket/introduction
+import time # https://pythontic.com/modules/datetime/introduction
 
 """
 
@@ -44,17 +45,6 @@ connection, address = server.accept()
 print("\nconectado com sucesso!")
 
 """
-
-    nameFile: o nome do arquivo que o cliente pediu para o servidor
-    bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
-    decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-    é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-    poder visualizar o que foi enviado, basicamente transforma bytes em string
-
-"""
-nameFile = connection.recv( bufferSize ).decode()  
-
-"""
     Toda essa parte acima é padrão... 
 
     O que vem após a conexão é o que o professor quer, que seria:
@@ -71,18 +61,35 @@ nameFile = connection.recv( bufferSize ).decode()
 
 
 # tentando dar uma adiantada:
+try:
 
+    """
 
-"""
+    nameFile: o nome do arquivo que o cliente pediu para o servidor
+    bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
+    decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
+    é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
+    poder visualizar o que foi enviado, basicamente transforma bytes em string
 
-    with open(): essa função abre o arquivo e garante após isso que ele seja fechado
-    for data in file: lê esse arquivo e envia esse arquivo para o cliente
-    readlines: vai ler todo o arquivo e enviar para o cliente
-    
-"""
-with open( nameFile, 'rb' ) as file: # , 
-     
-    for data in file.readlines(): # 
-        connection.send( data )
+    """
+    nameFile = connection.recv( bufferSize ).decode()  
 
-print("arquivo enviado!")
+    folderPath = "../files/"
+
+    with open( folderPath + nameFile, 'r' ) as file:
+        startTime = time.time()
+
+        for line in file:
+            connection.send( line.encode() )
+
+        endTime = time.time()
+        elapsedTime = endTime - startTime
+
+        print("Arquivo transmitido com sucesso.")
+        print("Tempo gasto:", elapsedTime, "segundos")
+
+except Exception as e:
+    print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
+
+connection.close()
+server.close()
