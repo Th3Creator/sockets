@@ -47,11 +47,15 @@ print("\nconectado com sucesso!")
 """
     Toda essa parte acima é padrão... 
 
-    O que vem após a conexão é o que o professor quer, quer seria:
+    O que vem após a conexão é o que o professor quer, que seria:
         
         - lê o arquivo que o cliente pediu
         - a transmissão deverá ser feita linha a linha*
+        - codificar o arquivo, ou seja, transformar em bytes para poder enviar
+        - verificar se chegou no final do arquivo
         - informar ao cliente o tempo gasto no envio do arquivo
+
+        # obs: cronometrar todo esse processo para poder notificar ao cliente 
 """
 
 
@@ -85,10 +89,4 @@ with open( nameFile, 'rb' ) as file: # ,
     for data in file.readlines(): # 
         connection.send( data )
 
-    print("arquivo enviado!")
-
-# lê o arquivo
-# codificar o arquivo, ou seja, transformar em bytes para poder enviar
-# enviar o arquivo
-# verificar se chegou no final do arquivo
-# obs: cronometrar todo esse processo para poder notificar ao cliente 
+print("arquivo enviado!")

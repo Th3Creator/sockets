@@ -45,7 +45,6 @@ print("conectado!")
 """
 
     nameFile: ler o arquivo que deseja que o servidor te mande
-    escolquer o nome do arquivo que deseja visualizar do servidor
 
 """
 nameFile = str(input('qual arquivo deseja pedir?')) # 
@@ -72,7 +71,3 @@ with open( nameFile, 'wb') as file:
         # saber quando o servidor vai parar de enviar os dados
 
 print("tudo recebido...")
-
-# recebe o arquivo
-# ler o arquivo e exibir a quantidade de linhas
-# exibir também o tempo gasto no envio
