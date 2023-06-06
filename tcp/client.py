@@ -44,7 +44,7 @@ try:
     nameFile: ler o arquivo que deseja que o servidor te mande
 
     """
-    nameFile = str(input('qual arquivo deseja pedir?')) 
+    nameFile = str(input('\nqual arquivo deseja pedir?')) 
 
     """
 
