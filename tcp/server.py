@@ -51,7 +51,7 @@ print("\nconectado com sucesso!")
         
         - verificar se existe o arquivo que o cliente pediu na pasta "files"
         - abrir e ler esse arquivo
-        - a transmissão deverá ser feita linha a linha*
+        - a transmissão deverá ser feita linha a linha* lê e manda
         - codificar o arquivo, ou seja, transformar em bytes para poder enviar
         - verificar se chegou no final do arquivo
         - informar ao cliente o tempo gasto no envio do arquivo
