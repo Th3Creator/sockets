@@ -48,7 +48,10 @@ try:
 
         transforma o str em bytes para poder ser transmitido
         encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
-
+        decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
+        é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
+        poder visualizar o que foi enviado, basicamente transforma bytes em string
+        
     """
     client.send( nameFile.encode() )  
 
