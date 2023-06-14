@@ -52,7 +52,7 @@ try:
         encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
 
     """
-    client.send( nameFile.encode() ) # 
+    client.send( nameFile.encode() )  
 
     folderPath = "files_reiceved/"
 

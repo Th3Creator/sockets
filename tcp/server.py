@@ -52,11 +52,6 @@ print("\nconectado com sucesso!")
         - verificar se existe o arquivo que o cliente pediu na pasta "files"
         - abrir e ler esse arquivo
         - a transmissão deverá ser feita linha a linha* lê e manda
-        - codificar o arquivo, ou seja, transformar em bytes para poder enviar
-        - verificar se chegou no final do arquivo
-        - informar ao cliente o tempo gasto no envio do arquivo
-
-        # obs: cronometrar todo esse processo para poder notificar ao cliente 
 """
 
 
@@ -82,6 +77,7 @@ try:
 
         for line in file:
             connection.send( line.encode() )
+            print( line )
 
         endTime = time.time()
         elapsedTime = endTime - startTime
