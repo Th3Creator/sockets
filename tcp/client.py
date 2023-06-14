@@ -77,13 +77,12 @@ try:
         print("Arquivo recebido com sucesso.")
         print("Tempo gasto:", elapsed_time, "segundos")
 
-        # Contar a quantidade de linhas do arquivo
-        with open( folderPath + nameFile, 'r' ) as file:
-
-            lines = file.readlines()
-            line_count = len(lines)
+    # Contar a quantidade de linhas do arquivo
+    with open( folderPath + nameFile, 'r' ) as file:
             
-            print("Quantidade de linhas:", line_count)
+        for line in file:
+            print( line )
+        
 
 except Exception as e:
     print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
