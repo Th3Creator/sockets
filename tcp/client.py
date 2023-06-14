@@ -35,8 +35,6 @@ print("conectado!")
         - notificar ao servidor se quer mais um arquivo ou pode fechar conexão
 """
 
-
-# tentando dar uma adiantada: 
 try:
 
     """

@@ -54,8 +54,6 @@ print("\nconectado com sucesso!")
         - a transmissão deverá ser feita linha a linha* lê e manda
 """
 
-
-# tentando dar uma adiantada:
 try:
 
     """
