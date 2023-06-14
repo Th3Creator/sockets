@@ -81,7 +81,6 @@ try:
         for line in file:
             print( line )
         
-
 except Exception as e:
     print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
 
