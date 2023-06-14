@@ -22,7 +22,6 @@ bufferSize = 100000000
 client.connect(( host, port ))
 print("conectado!")
 
-
 """
     Toda essa parte acima é padrão... 
 
