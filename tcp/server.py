@@ -54,41 +54,37 @@ print("\nconectado com sucesso!")
         - a transmissão deverá ser feita linha a linha* lê e manda
 """
 
-while True:
-    try:
+try:
 
-        """
+    """
 
-        nameFile: o nome do arquivo que o cliente pediu para o servidor
-        bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
-        decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-        é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-        poder visualizar o que foi enviado, basicamente transforma bytes em string
-        encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
+    nameFile: o nome do arquivo que o cliente pediu para o servidor
+    bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
+    decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
+    é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
+    poder visualizar o que foi enviado, basicamente transforma bytes em string
+    encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
 
-        """
-        nameFile = connection.recv( bufferSize ).decode()  
-        statusCommunication = connection.recv( bufferSize ).decode()
+    """
+    nameFile = connection.recv( bufferSize ).decode()  
 
-        folderPath = "../files/"
+    folderPath = "../files/"
 
-        with open( folderPath + nameFile, 'r' ) as file:
-            
-            startTime = time.time()
+    with open( folderPath + nameFile, 'r' ) as file:
+        
+        startTime = time.time()
 
-            for line in file:
-                connection.send( line.encode() )
+        for line in file:
+            connection.send( line.encode() )
 
-            endTime = time.time()
-            elapsedTime = endTime - startTime
+        endTime = time.time()
+        elapsedTime = endTime - startTime
 
-            print("Arquivo transmitido com sucesso.")
-            print("Tempo gasto:", elapsedTime, "segundos")     
+        print("Arquivo transmitido com sucesso.")
+        print("Tempo gasto:", elapsedTime, "segundos")
 
-        if statusCommunication == "s":
-            connection.close()
-            server.close()
-            break
+except Exception as e:
+    print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
 
-    except Exception as e:
-        print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
+connection.close()
+server.close()

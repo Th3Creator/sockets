@@ -34,63 +34,56 @@ print("conectado!")
         - notificar ao servidor se quer mais um arquivo ou pode fechar conexão
 """
 
-while True:
-    try:
+try:
 
-        """
+    """
 
-            namefile: ler o arquivo que deseja que o servidor te mande
+    nameFile: ler o arquivo que deseja que o servidor te mande
 
-        """
-        nameFile = str(input('\nqual arquivo deseja pedir?')) 
-        statusCommunication = str(input('\nvocê deseja finalizar a comunicacao apos envio? (s/n)?'))
+    """
+    nameFile = str(input('\nqual arquivo deseja pedir?')) 
 
-        """
+    """
 
-            transforma o str em bytes para poder ser transmitido
-            encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
-            decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-            é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-            poder visualizar o que foi enviado, basicamente transforma bytes em string
+        transforma o str em bytes para poder ser transmitido
+        encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
+        decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
+        é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
+        poder visualizar o que foi enviado, basicamente transforma bytes em string
+        
+    """
+    client.send( nameFile.encode() )  
+
+    folderPath = "files_reiceved/"
+
+    # Cria o arquivo para salvar os dados recebidos
+    with open( folderPath + nameFile, 'w' ) as file:
+
+        start_time = time.time()
+
+        # Recebe os dados do servidor e escreve no arquivo
+        while True:
+
+            data = client.recv( bufferSize ).decode()
+
+            if not data:
+                break
+
+            file.write( data )
+
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+
+        print("Arquivo recebido com sucesso.")
+        print("Tempo gasto:", elapsed_time, "segundos")
+
+    # Contar a quantidade de linhas do arquivo
+    with open( folderPath + nameFile, 'r' ) as file:
             
-        """
-        client.send( nameFile.encode() )  
-        client.send( statusCommunication.encode() )
+        for line in file:
+            print( line )
+        
+except Exception as e:
+    print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
 
-        folderPath = "files_reiceved/"
-
-        # não tá reconheciendo o nome do arquivo, porquê está em bytes
-
-        # Cria o arquivo para salvar os dados recebidos
-        with open( folderPath + nameFile, 'w' ) as file:
-
-            start_time = time.time()
-
-            # Recebe os dados do servidor e escreve no arquivo
-            while True:
-
-                data = client.recv( bufferSize ).decode()
-
-                if not data:
-                    break
-
-                file.write( data )
-
-            end_time = time.time()
-            elapsed_time = end_time - start_time
-
-            print("Arquivo recebido com sucesso.")
-            print("Tempo gasto:", elapsed_time, "segundos")
-
-        # Contar a quantidade de linhas do arquivo
-        with open( folderPath + nameFile, 'r' ) as file:
-                
-            for line in file:
-                print( line )
-              
-        if statusCommunication == "s":
-            client.close()
-            break
-
-    except Exception as e:
-        print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
+client.close()
