@@ -1,29 +1,46 @@
-import socket, sys
+import socket
 
-
-HOST = '127.0.0.1'  # endereço IP
+HOST = '127.0.0.1'  # endereço IP do servidor
 PORT = 20001        # Porta utilizada pelo servidor
 BUFFER_SIZE = 1024  # tamanho do buffer para recepção dos dados
 
-
-def main(argv): 
+def receive_file(file_name):
     try:
-        # Cria o socket UDP
-        with socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM) as UDPClientSocket:
-            # Envia texto para o servidor
-            texto = input("Digite o texto a ser enviado ao servidor:\n")
-            UDPClientSocket.sendto(texto.encode(), (HOST, PORT))
-            msgFromServer = UDPClientSocket.recvfrom(BUFFER_SIZE)
-            msg = "Message do servidor {}".format(msgFromServer[0])
-            print(msg)
+        # Cria um socket UDP
+        client_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+        server_address = (HOST, PORT)
+
+        # Envia o nome do arquivo para o servidor
+        client_socket.sendto(file_name.encode(), server_address)
+
+        # Aguarda a resposta do servidor
+        data, _ = client_socket.recvfrom(BUFFER_SIZE)
+        response = data.decode()
+
+        if response == 'Arquivo encontrado':
+            # Recebe as linhas do arquivo do servidor
+            while True:
+                data, _ = client_socket.recvfrom(BUFFER_SIZE)
+                line = data.decode()
+                if line == 'Fim':
+                    break
+                print(line)
+
+            print(f'O arquivo "{file_name}" foi recebido com sucesso.')
+
+        else:
+            print(f'O arquivo "{file_name}" não foi encontrado.')
 
     except Exception as error:
-        print("Exceção - Programa será encerrado!")
+        print(f"Erro ao receber o arquivo {file_name}")
         print(error)
-        return
 
+    finally:
+        client_socket.close()
 
-if __name__ == "__main__":   
-    main(sys.argv[1:])
-    
-#Código base que o professor disponibilizou
+def main():
+    file_name = input("Digite o nome do arquivo que deseja receber: ")
+    receive_file(file_name)
+
+if __name__ == "__main__":
+    main()
