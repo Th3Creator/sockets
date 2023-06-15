@@ -1,8 +1,8 @@
 import socket
 
-HOST = '127.0.0.1'  # endereço IP do servidor
-PORT = 20001        # Porta utilizada pelo servidor
-BUFFER_SIZE = 1024  # tamanho do buffer para recepção dos dados
+HOST = ''  # endereço IP do servidor
+PORT =         # Porta utilizada pelo servidor
+BUFFER_SIZE =   # tamanho do buffer para recepção dos dados
 
 def receive_file(file_name):
     try:

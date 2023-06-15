@@ -3,9 +3,9 @@ import sys
 import os
 from threading import Thread
 
-HOST = '127.0.0.1'  # endereço IP
-PORT = 20001        # Porta utilizada pelo servidor
-BUFFER_SIZE = 1024  # tamanho do buffer para recepção dos dados
+HOST = ''  # endereço IP
+PORT =         # Porta utilizada pelo servidor
+BUFFER_SIZE =   # tamanho do buffer para recepção dos dados
 
 def send_file(file_name, client_address):
     try:
