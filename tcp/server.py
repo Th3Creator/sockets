@@ -44,16 +44,6 @@ print("aguardando conexão...")
 connection, address = server.accept()
 print("\nconectado com sucesso!")
 
-"""
-    Toda essa parte acima é padrão... 
-
-    O que vem após a conexão é o que o professor quer, que seria:
-        
-        - verificar se existe o arquivo que o cliente pediu na pasta "files"
-        - abrir e ler esse arquivo
-        - a transmissão deverá ser feita linha a linha* lê e manda
-"""
-
 try:
 
     """
@@ -88,3 +78,12 @@ except Exception as e:
 
 connection.close()
 server.close()
+
+
+while True:
+
+    # passo à passo de verificação do arquivo e envio 
+
+    # 
+
+    print("aoba")

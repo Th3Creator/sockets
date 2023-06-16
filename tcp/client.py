@@ -22,18 +22,6 @@ bufferSize = 100000000
 client.connect(( host, port ))
 print("conectado!")
 
-"""
-    Toda essa parte acima é padrão... 
-
-    O que vem após a conexão é o que o professor quer, quer seria:
-        
-        - pedir o arquivo pro servidor
-        - receber esse arquivo e "ser remontados e salvos como arquivos de texto cliente"*
-        - imprimir o tempo gasto desse envio
-        - imprimir a quantidade total de linhas desse arquivo
-        - notificar ao servidor se quer mais um arquivo ou pode fechar conexão
-"""
-
 try:
 
     """
@@ -87,3 +75,13 @@ except Exception as e:
     print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
 
 client.close()
+
+while True:
+
+    # passo à passo padrão de solicitação e recebimento de arquivos
+
+    # interrupção da comunicação caso o cliente não deseje receber mais arquivos
+
+    # 
+
+    print("aoba")
