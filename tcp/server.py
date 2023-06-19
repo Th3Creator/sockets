@@ -3,14 +3,6 @@ import time # https://pythontic.com/modules/datetime/introduction
 
 """
 
-    socket.socket(): invocando o método socket que chama o construtor dela passando dois parâmetros:
-    (família de protocologo, tipo de protocologo (SOCK_STREM = tcp; SOCK_DGRAM = udp))
-
-"""
-server = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
-
-"""
-
     host: o ip onde toda comunicação vai acontecer, coloquei localhost porquê vai ser tudo na minha máquina
     port: a porta onde toda comunicação entre o cliente/servidor vai acontecer
     bufferSize: buffer para a recepção de dados 
@@ -22,68 +14,87 @@ bufferSize = 1024
 
 """
 
+    socket.socket(): invocando o método socket que chama o construtor dela passando dois parâmetros:
+    (família de protocologo, tipo de protocologo (SOCK_STREM = tcp; SOCK_DGRAM = udp))
+
+"""
+server = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
+
+"""
+
     bind(): o método bind é responsável por associar uma porta a um host, no caso eu associei a porta 7777 a minha máquina local
 
 """
 server.bind(( host, port ))
 
-"""
+def sendFiles(connection, communicationInterruption):
+        try:
+            """
 
-    listen(): transforma o servidor em modo de escuta, ou seja, tá esperando que alguém faça uma comunicação
+            nameFile: o nome do arquivo que o cliente pediu para o servidor
+            bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
+            decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
+            é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
+            poder visualizar o que foi enviado, basicamente transforma bytes em string
+            encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
 
-"""
-server.listen()
-print("aguardando conexão...")
+            """
+            nameFile = connection.recv( bufferSize ).decode() 
 
-"""
+            folderPath = "../files/"
 
-    connection: a conexão com o cliente
-    address: endereço do cliente conectado
+            with open( folderPath + nameFile, 'r' ) as file:
+                
+                startTime = time.time()
 
-"""
-connection, address = server.accept()
-print("\nconectado com sucesso!")
+                for line in file:
+                    connection.send( line.encode() )
 
-try:
+                endTime = time.time()
+                elapsedTime = endTime - startTime
+                elapsedTimeFormatted = "{:.2f}".format(elapsedTime)
+
+            print("Arquivo transmitido com sucesso.")
+            print("Tempo gasto:", elapsedTimeFormatted, "segundos")    
+            
+            if communicationInterruption == "sair":
+                connection.close()
+                sair()
+
+            connection.close()
+            main()
+
+
+        except Exception as e:
+            print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
+
+def sair():
+    print("Encerrando o programa.")
+    raise SystemExit
+
+def main():
+    
+    """
+
+        listen(): transforma o servidor em modo de escuta, ou seja, tá esperando que alguém faça uma comunicação
+
+    """
+    server.listen()
+    print("aguardando conexão...")
 
     """
 
-    nameFile: o nome do arquivo que o cliente pediu para o servidor
-    bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
-    decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-    é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-    poder visualizar o que foi enviado, basicamente transforma bytes em string
-    encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
+        connection: a conexão com o cliente
+        address: endereço do cliente conectado
 
     """
-    nameFile = connection.recv( bufferSize ).decode()  
+    connection, address = server.accept()
+    print("\nconectado com sucesso!")
 
-    folderPath = "../files/"
+    communicationInterruption = connection.recv( bufferSize ).decode()
+    print(communicationInterruption)
+    # se for n, quero que feche a conexão e entre em modo de escuta novamente
+    sendFiles(connection, communicationInterruption)
 
-    with open( folderPath + nameFile, 'r' ) as file:
-        
-        startTime = time.time()
-
-        for line in file:
-            connection.send( line.encode() )
-
-        endTime = time.time()
-        elapsedTime = endTime - startTime
-
-        print("Arquivo transmitido com sucesso.")
-        print("Tempo gasto:", elapsedTime, "segundos")
-
-except Exception as e:
-    print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
-
-connection.close()
-server.close()
-
-
-while True:
-
-    # passo à passo de verificação do arquivo e envio 
-
-    # 
-
-    print("aoba")
+if __name__ == '__main__':
+    main()
