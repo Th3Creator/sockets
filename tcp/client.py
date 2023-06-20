@@ -1,100 +1,89 @@
-import socket # https://pythontic.com/modules/socket/introduction
-import time # https://pythontic.com/modules/datetime/introduction
+import socket
+import time
 
-"""
+host = 'localhost'
+port = 7777
+bufferSize = 100000000
 
-    host: ip onde o servidor está... no caso é tudo na minha máquina local
-    port: tem que ser a mesma porta que o servidor tá lá
-    bufferSize: buffer para a recepção de dados
+def receber_arquivos(client):
+    try:
+        nome_arquivo = input("Qual arquivo você deseja solicitar? ")
 
-"""
-host = 'localhost' 
-port = 7777 
-bufferSize = 100000000 
+        client.send(nome_arquivo.encode())
 
-def receiveFiles( client, communicationInterruption ):
-        try:
+        folderPath = "files_received/"
 
-            """
+        with open(folderPath + nome_arquivo, 'w') as arquivo:
+            start_time = time.time()
 
-                nameFile: ler o arquivo que deseja que o servidor te mande
+            while True:
+                data = client.recv(bufferSize).decode()
+                if not data:
+                    break
 
-            """
-            nameFile = str(input('\nqual arquivo deseja pedir?')) 
+                arquivo.write(data)
 
-            """
+            end_time = time.time()
+            tempo_gasto = end_time - start_time
 
-                transforma o str em bytes para poder ser transmitido
-                encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
-                decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-                é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-                poder visualizar o que foi enviado, basicamente transforma bytes em string
-                
-            """
-            client.send( nameFile.encode() ) 
+        print("Arquivo recebido com sucesso.")
+        print("Tempo gasto:", tempo_gasto, "segundos")
 
-            folderPath = "files_reiceved/"
+        with open(folderPath + nome_arquivo, 'r') as arquivo:
+            for linha in arquivo:
+                print(linha)
 
-            # Cria o arquivo para salvar os dados recebidos
-            with open( folderPath + nameFile, 'w' ) as file:
+        exibir_menu()
 
-                start_time = time.time()
-
-                # Recebe os dados do servidor e escreve no arquivo
-                while True:
-
-                    data = client.recv( bufferSize ).decode()
-                    # b.o tá aqui
-                    if not data:
-                        break
-
-                    file.write( data )
-
-                    end_time = time.time()
-                    elapsed_time = end_time - start_time
-                    
-            print("Arquivo recebido com sucesso.")
-            print("Tempo gasto:", elapsed_time, "segundos")
-
-            # Contar a quantidade de linhas do arquivo
-            with open( folderPath + nameFile, 'r' ) as file:
-                    
-                for line in file:
-                    print( line )  
-
-            if communicationInterruption == "sair":
-                client.close()
-                sair()
-
-            main()
-
-        except Exception as e:
-            print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
+    except Exception as e:
+        print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
 
 def sair():
     print("\nEncerrando o programa.")
     raise SystemExit
 
-def main():
+def exibir_menu():
+    try:
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect((host, port))
+        print("Conectado!")
 
-    client = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
+        receber_arquivos(client)
 
-    """
+    except Exception as e:
+        print("Ocorreu um erro durante a conexão:", str(e))
 
-        vai fazer a conexão com o ip da máquina passada e qual porta vai se comunicar
+def exibir_menu():
+    while True:
+        print("===== Menu =====")
+        print("1. Solicitar arquivos")
+        print("2. Solicitar tabela de arquivos disponíveis")
+        print("3. Sair do programa")
 
-    """
-    client.connect(( host, port ))
-    print("conectado!")  
+        opcao = input("Digite o número da opção desejada: ")
 
-    communicationInterruption = str(input("Digite 'sair' caso deseja sair do programa ou outra tecla par continuar: "))
+        if opcao == '1':
+            exibir_menu_solicitacao()
+        elif opcao == '2':
+            solicitar_tabela_arquivos()
+        elif opcao == '3':
+            sair()
+        else:
+            print("Opção inválida. Por favor, tente novamente.")
 
-    if communicationInterruption == "sair":
-        sair()
+def exibir_menu_solicitacao():
+    try:
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect((host, port))
+        print("Conectado!")
 
-    client.send( communicationInterruption.encode() )
+        receber_arquivos(client)
 
-    receiveFiles( client, communicationInterruption )
-    
+    except Exception as e:
+        print("Ocorreu um erro durante a conexão:", str(e))
+
+def solicitar_tabela_arquivos():
+    print("Função para solicitar a tabela de arquivos disponíveis.")
+
 if __name__ == '__main__':
-    main()
+    exibir_menu()

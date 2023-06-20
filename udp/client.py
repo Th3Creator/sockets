@@ -1,7 +1,7 @@
 import socket
 import time
 
-def main():
+def solicitar_entrada_usuario():
     server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     host = 'localhost'
@@ -18,7 +18,7 @@ def main():
                 break
 
             client.sendto(fileName.encode(), (host, port))
-            folderPath = "files_reiceved/"
+            folderPath = "files_received/"
 
             with open(folderPath + fileName, 'w') as file:
                 start_time = time.time()
@@ -39,5 +39,35 @@ def main():
 
     print("Conexão encerrada.")
 
+
+def solicitar_tabela_arquivos():
+    # Lógica para solicitar tabela de arquivos disponíveis
+    print("Função para solicitar a tabela de arquivos disponíveis.")
+
+
+def sair_programa():
+    print("Programa encerrado.")
+    exit()
+
+
+def exibir_menu():
+    while True:
+        print("===== Menu =====")
+        print("1. Solicitar arquivos")
+        print("2. Solicitar tabela de arquivos disponíveis")
+        print("3. Sair do programa")
+
+        opcao = input("Digite o número da opção desejada: ")
+        
+        if opcao == '1':
+            solicitar_entrada_usuario()
+        elif opcao == '2':
+            solicitar_tabela_arquivos()
+        elif opcao == '3':
+            sair_programa()
+        else:
+            print("Opção inválida. Por favor, tente novamente.")
+
+
 if __name__ == '__main__':
-    main()
+    exibir_menu()
