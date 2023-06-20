@@ -1,104 +1,92 @@
-import socket # https://pythontic.com/modules/socket/introduction
-import time # https://pythontic.com/modules/datetime/introduction
+import socket
+import time
+import os
 
-"""
+host = 'localhost'
+port = 7777
+bufferSize = 100000000
 
-    host: ip onde o servidor está... no caso é tudo na minha máquina local
-    port: tem que ser a mesma porta que o servidor tá lá
-    bufferSize: buffer para a recepção de dados
+def menu(client):
+    while True:
+        os.system('cls') or None
 
-"""
-host = 'localhost' 
-port = 7777 
-bufferSize = 100000000 
+        print("\n===== Menu =====")
+        print("\n1. Solicitar arquivos de texto")
+        print("\n2. Solicitar tabela de arquivos disponíveis no servidor")
+        print("\n3. Sair do programa")
 
-def receiveFiles( client, communicationInterruption ):
-        try:
+        option = input("\nDigite o número da opção desejada: ")
 
-            """
+        if option == '1':
 
-                nameFile: ler o arquivo que deseja que o servidor te mande
+            client.send( option.encode() )
+            receiveFilesText( client )
+        elif option == '2':
 
-            """
-            nameFile = str(input('\nqual arquivo deseja pedir?')) 
+            # client.send( option.encode() )
+            print("tabela disponível...")
+        elif option == '3':
 
-            """
+            client.send( option.encode() )
+            exit()
+        else:
 
-                transforma o str em bytes para poder ser transmitido
-                encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
-                decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-                é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-                poder visualizar o que foi enviado, basicamente transforma bytes em string
-                
-            """
-            client.send( nameFile.encode() ) 
-            # toda essa parte daqui pra cima, colocar no menu
+            os.system('cls') or None
+            print("\nOpção inválida. Por favor, tente novamente.")
+            time.sleep(3)
 
-            folderPath = "files_reiceved/"
+def receiveFilesText(client):
+    try:
+        os.system('cls') or None
 
-            # Cria o arquivo para salvar os dados recebidos
-            with open( folderPath + nameFile, 'w' ) as file:
+        nome_arquivo = input("\nEscreva o nome do arquivo de texto que deseja solicitar ex:(small.txt) ")
 
-                start_time = time.time()
+        client.send(nome_arquivo.encode())
 
-                # Recebe os dados do servidor e escreve no arquivo
-                while True:
+        os.system('cls') or None
+        print("\nverifique o tempo informado pelo servidor...")
 
-                    data = client.recv( bufferSize ).decode()
-                    # b.o tá aqui
-                    if not data:
-                        break
+        folderPath = "files_received/"
 
-                    file.write( data )
+        # escrita das linhas recebidas
+        with open(folderPath + nome_arquivo, 'w') as arquivo:
+            
+            while True:
+                data = client.recv( bufferSize ).decode()
 
-                    end_time = time.time()
-                    elapsed_time = end_time - start_time
-                    
-            print("Arquivo recebido com sucesso.")
-            print("Tempo gasto:", elapsed_time, "segundos")
+                if not data:
+                    break
 
-            # Contar a quantidade de linhas do arquivo
-            with open( folderPath + nameFile, 'r' ) as file:
-                    
-                for line in file:
-                    print( line )  
+                arquivo.write(data)             
 
-            if communicationInterruption == "sair":
-                client.close()
-                sair()
+        os.system('cls') or None
+        print("\niniciando a contagem de linhas...")
+        time.sleep(3)
 
-            main()
+        # leitura e impressão das linhas
+        with open(folderPath + nome_arquivo, 'r') as arquivo:
+            for linha in arquivo:
+                print(linha)
 
-        except Exception as e:
-            print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
+        client.close()
+        main()
 
-def sair():
-    print("\nEncerrando o programa.")
+    except Exception as e:
+        print("Ocorreu um erro durante o recebimento do arquivo:", str(e))
+
+def exit():
+    os.system('cls') or None
+    print("\nPrograma encerrado.")
     raise SystemExit
 
 def main():
 
     client = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
 
-    """
-
-        vai fazer a conexão com o ip da máquina passada e qual porta vai se comunicar
-
-    """
     client.connect(( host, port ))
     print("conectado!") # tirar isso daqui
 
-    # menu
-
-
-    communicationInterruption = str(input("Digite 'sair' caso deseja sair do programa ou outra tecla par continuar: "))
-
-    if communicationInterruption == "sair":
-        sair()
-
-    client.send( communicationInterruption.encode() )
-
-    receiveFiles( client, communicationInterruption )
-    
+    menu(client)
+ 
 if __name__ == '__main__':
     main()

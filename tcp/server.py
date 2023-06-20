@@ -1,5 +1,6 @@
 import socket # https://pythontic.com/modules/socket/introduction
 import time # https://pythontic.com/modules/datetime/introduction
+import os
 
 """
 
@@ -12,33 +13,12 @@ host = 'localhost'
 port = 7777 
 bufferSize = 1024 
 
-"""
-
-    socket.socket(): invocando o método socket que chama o construtor dela passando dois parâmetros:
-    (família de protocologo, tipo de protocologo (SOCK_STREM = tcp; SOCK_DGRAM = udp))
-
-"""
 server = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
 
-"""
-
-    bind(): o método bind é responsável por associar uma porta a um host, no caso eu associei a porta 7777 a minha máquina local
-
-"""
 server.bind(( host, port ))
 
-def sendFiles(connection, communicationInterruption):
+def sendFilesText( connection ):
         try:
-            """
-
-            nameFile: o nome do arquivo que o cliente pediu para o servidor
-            bufferSize: vai ser quantos bytes você quer receber, o n° 1024 já é o suficente
-            decode(): o decode é pra transformar os bytes em string, isso se dá porque toda vez que você envia algo na rede,
-            é necessário que você transforma aquele dado em bytes e quando chega é necessário fazer o processo inverso para 
-            poder visualizar o que foi enviado, basicamente transforma bytes em string
-            encode(): faz o processo de codificação, transformando os dados em bytes para poder ser transmitidos
-
-            """
             nameFile = connection.recv( bufferSize ).decode() 
 
             folderPath = "../files/"
@@ -54,49 +34,46 @@ def sendFiles(connection, communicationInterruption):
                 elapsedTime = endTime - startTime
                 elapsedTimeFormatted = "{:.2f}".format(elapsedTime)
 
-            print("Arquivo transmitido com sucesso.")
-            print("Tempo gasto:", elapsedTimeFormatted, "segundos")    
+            os.system('cls') or None
+            print("\nArquivo", nameFile, "transmitido com sucesso.")
+            print("\nTempo gasto:", elapsedTimeFormatted, "segundos")    
             
-            if communicationInterruption == "sair":
-                connection.close()
-                sair()
+            time.sleep(5)
 
             connection.close()
             main()
 
-
         except Exception as e:
             print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
 
-def sair():
-    print("Encerrando o programa.")
+def exit():
+    os.system('cls') or None
+    print("\nPrograma encerrado.")
     raise SystemExit
 
 def main():
-    
-    """
+    os.system('cls') or None
 
-        listen(): transforma o servidor em modo de escuta, ou seja, tá esperando que alguém faça uma comunicação
-
-    """
     server.listen()
-    print("aguardando conexão...") # 
+    print("\naguardando conexão...") # 
 
-    """
-
-        connection: a conexão com o cliente
-        address: endereço do cliente conectado
-
-    """
     connection, address = server.accept()
-    print("\nconectado com sucesso!")
 
-    communicationInterruption = connection.recv( bufferSize ).decode()
-    print(communicationInterruption)
+    option = connection.recv( bufferSize ).decode()
 
-    # se a communicationInterruption  for igual a sair, ele vai embora do programa
+    if option == '1':
+        sendFilesText( connection )
+    elif option == '2':
 
-    sendFiles(connection, communicationInterruption)
+        # client.send( option.encode() )
+        print("tabela disponível...")
+    elif option == '3':
+
+        exit()
+    else:
+
+        connection.close()
+        main()
 
 if __name__ == '__main__':
     main()
