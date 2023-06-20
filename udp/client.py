@@ -6,16 +6,12 @@ def solicitar_entrada_usuario():
 
     host = 'localhost'
     port = 9999
-
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
     bufferSize = 1024
 
     while True:
         try:
-            fileName = input("Digite o nome do arquivo (ou 'sair' para encerrar): ")
-            if fileName == 'sair':
-                break
+            fileName = input("Digite o nome do arquivo: ")
 
             client.sendto(fileName.encode(), (host, port))
             folderPath = "files_received/"
@@ -35,20 +31,13 @@ def solicitar_entrada_usuario():
         except Exception as e:
             print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
 
-    client.close()
-
-    print("Conexão encerrada.")
-
-
 def solicitar_tabela_arquivos():
     # Lógica para solicitar tabela de arquivos disponíveis
     print("Função para solicitar a tabela de arquivos disponíveis.")
 
-
 def sair_programa():
     print("Programa encerrado.")
     exit()
-
 
 def exibir_menu():
     while True:
@@ -67,7 +56,6 @@ def exibir_menu():
             sair_programa()
         else:
             print("Opção inválida. Por favor, tente novamente.")
-
 
 if __name__ == '__main__':
     exibir_menu()
