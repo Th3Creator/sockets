@@ -6,7 +6,7 @@ host = 'localhost'
 port = 7777
 bufferSize = 100000000
 
-def menu(client):
+def menu( client ):
     while True:
         os.system('cls') or None
 
@@ -35,13 +35,13 @@ def menu(client):
             print("\nOpção inválida. Por favor, tente novamente.")
             time.sleep(3)
 
-def receiveFilesText(client):
+def receiveFilesText( client ):
     try:
         os.system('cls') or None
 
         nome_arquivo = input("\nEscreva o nome do arquivo de texto que deseja solicitar ex:(small.txt) ")
 
-        client.send(nome_arquivo.encode())
+        client.send( nome_arquivo.encode() )
 
         os.system('cls') or None
         print("\nverifique o tempo informado pelo servidor...")
@@ -66,7 +66,7 @@ def receiveFilesText(client):
         # leitura e impressão das linhas
         with open(folderPath + nome_arquivo, 'r') as arquivo:
             for linha in arquivo:
-                print(linha)
+                print( linha )
 
         client.close()
         main()
@@ -86,7 +86,7 @@ def main():
     client.connect(( host, port ))
     print("conectado!") # tirar isso daqui
 
-    menu(client)
+    menu( client )
  
 if __name__ == '__main__':
     main()
