@@ -80,7 +80,7 @@ def main():
 
     """
     server.listen()
-    print("aguardando conexão...")
+    print("aguardando conexão...") # 
 
     """
 
@@ -93,7 +93,9 @@ def main():
 
     communicationInterruption = connection.recv( bufferSize ).decode()
     print(communicationInterruption)
-    # se for n, quero que feche a conexão e entre em modo de escuta novamente
+
+    # se a communicationInterruption  for igual a sair, ele vai embora do programa
+
     sendFiles(connection, communicationInterruption)
 
 if __name__ == '__main__':

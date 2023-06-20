@@ -32,6 +32,7 @@ def receiveFiles( client, communicationInterruption ):
                 
             """
             client.send( nameFile.encode() ) 
+            # toda essa parte daqui pra cima, colocar no menu
 
             folderPath = "files_reiceved/"
 
@@ -85,7 +86,10 @@ def main():
 
     """
     client.connect(( host, port ))
-    print("conectado!")  
+    print("conectado!") # tirar isso daqui
+
+    # menu
+
 
     communicationInterruption = str(input("Digite 'sair' caso deseja sair do programa ou outra tecla par continuar: "))
 
