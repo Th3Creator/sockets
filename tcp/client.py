@@ -1,5 +1,5 @@
-import socket
-import time
+import socket # https://pythontic.com/modules/socket/introduction
+import time # https://pythontic.com/modules/datetime/introduction
 import os
 
 host = 'localhost'
@@ -12,8 +12,7 @@ def menu( client ):
 
         print("\n===== Menu =====")
         print("\n1. Solicitar arquivos de texto")
-        print("\n2. Solicitar tabela de arquivos disponíveis no servidor")
-        print("\n3. Sair do programa")
+        print("\n2. Sair do programa")
 
         option = input("\nDigite o número da opção desejada: ")
 
@@ -22,10 +21,6 @@ def menu( client ):
             client.send( option.encode() )
             receiveFilesText( client )
         elif option == '2':
-
-            # client.send( option.encode() )
-            print("tabela disponível...")
-        elif option == '3':
 
             client.send( option.encode() )
             exit()
@@ -84,7 +79,6 @@ def main():
     client = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
 
     client.connect(( host, port ))
-    print("conectado!") # tirar isso daqui
 
     menu( client )
  

@@ -2,13 +2,6 @@ import socket # https://pythontic.com/modules/socket/introduction
 import time # https://pythontic.com/modules/datetime/introduction
 import os
 
-"""
-
-    host: o ip onde toda comunicação vai acontecer, coloquei localhost porquê vai ser tudo na minha máquina
-    port: a porta onde toda comunicação entre o cliente/servidor vai acontecer
-    bufferSize: buffer para a recepção de dados 
-
-"""
 host = 'localhost'  
 port = 7777 
 bufferSize = 1024 
@@ -62,12 +55,9 @@ def main():
     option = connection.recv( bufferSize ).decode()
 
     if option == '1':
+
         sendFilesText( connection )
     elif option == '2':
-
-        # client.send( option.encode() )
-        print("tabela disponível...")
-    elif option == '3':
 
         exit()
     else:
