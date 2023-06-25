@@ -31,10 +31,6 @@ def solicitar_entrada_usuario():
         except Exception as e:
             print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
 
-def solicitar_tabela_arquivos():
-    # Lógica para solicitar tabela de arquivos disponíveis
-    print("Função para solicitar a tabela de arquivos disponíveis.")
-
 def sair_programa():
     print("Programa encerrado.")
     exit()
@@ -43,16 +39,13 @@ def exibir_menu():
     while True:
         print("===== Menu =====")
         print("1. Solicitar arquivos")
-        print("2. Solicitar tabela de arquivos disponíveis")
-        print("3. Sair do programa")
+        print("2. Sair do programa")
 
         opcao = input("Digite o número da opção desejada: ")
         
         if opcao == '1':
             solicitar_entrada_usuario()
         elif opcao == '2':
-            solicitar_tabela_arquivos()
-        elif opcao == '3':
             sair_programa()
         else:
             print("Opção inválida. Por favor, tente novamente.")
