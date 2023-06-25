@@ -12,6 +12,7 @@ server.bind(( host, port ))
 
 def sendFilesText( connection ):
         try:
+            
             nameFile = connection.recv( bufferSize ).decode() 
 
             folderPath = "../files/"
