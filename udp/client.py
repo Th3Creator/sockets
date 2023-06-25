@@ -27,6 +27,7 @@ def solicitar_entrada_usuario():
                     file.write(line)
 
             print("Arquivo recebido com sucesso.")
+            break  # Sair do loop interno e retornar ao menu
 
         except Exception as e:
             print("Ocorreu um erro durante a transmissão do arquivo:", str(e))
