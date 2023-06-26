@@ -1,13 +1,14 @@
 import socket
 import time
 
+
 def solicitar_entrada_usuario():
     server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     host = 'localhost'
     port = 9999
     client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    bufferSize = 1024
+    bufferSize = 500000
 
     while True:
         try:
@@ -21,10 +22,13 @@ def solicitar_entrada_usuario():
                 while True:
                     data, address = client.recvfrom(bufferSize)
                     line = data.decode()
-                    # print(line)
+                    #print(line)
                     if line == "END":
                         break
                     file.write(line)
+            with open(folderPath + fileName, 'r') as file:
+                for line in file:
+                    print( line )
 
             print("Arquivo recebido com sucesso.")
             break  # Sair do loop interno e retornar ao menu
