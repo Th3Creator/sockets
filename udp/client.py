@@ -21,7 +21,7 @@ def solicitar_entrada_usuario():
                 while True:
                     data, address = client.recvfrom(bufferSize)
                     line = data.decode()
-                    print(line)
+                    # print(line)
                     if line == "END":
                         break
                     file.write(line)
