@@ -30,7 +30,6 @@ while True:
         startTime = time.time()
         for line in file:
             server.sendto(line.encode(), address)
-
         server.sendto("END".encode(), address)
 
     endTime = time.time()
